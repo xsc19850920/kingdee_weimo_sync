@@ -17,7 +17,7 @@ public class KingdeeController {
 	@Autowired
 	private KingdeeService kingdeeService;
 	
-	@Scheduled(initialDelay = 30000,fixedRate = 60000)
+	@Scheduled(fixedRate = 60000)
 	public void getUsers() {
 		kingdeeService.getAccessToken();
 		// part of kingdee
