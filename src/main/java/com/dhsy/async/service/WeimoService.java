@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.xxl.job.core.log.XxlJobLogger;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,12 +33,14 @@ public class WeimoService {
             if (StringUtils.isNotBlank(response)) {
                 try {
                     JSONObject responseJsonObj = JSONArray.parseObject(response);
-                    logger.info("微盟刷新token:"+responseJsonObj);
+                    XxlJobLogger.log("微盟刷新token:"+responseJsonObj);
                     ClientConfig.weimo_access_token = responseJsonObj.get("access_token").toString();
                     ClientConfig.weimo_refresh_token = responseJsonObj.get("refresh_token").toString();
                 } catch (Exception e) {
                     logger.error("微盟刷新token出错: " + e.getMessage());
                 }
+            }else {
+            	 XxlJobLogger.log("微盟刷新token 返回值 未获取到");
             }
         }
 	}

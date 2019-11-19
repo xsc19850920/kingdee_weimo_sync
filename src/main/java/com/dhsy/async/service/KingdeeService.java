@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import com.xxl.job.core.log.XxlJobLogger;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang.StringUtils;
@@ -41,16 +42,19 @@ public class KingdeeService {
 		if (StringUtils.isNotBlank(responseStr)) {
 			try {
 				JSONObject responseJsonObj = JSONArray.parseObject(responseStr);
-				logger.info("金蝶获取token:" + responseJsonObj);
+				XxlJobLogger.log("金蝶获取token:" + responseJsonObj);
 				ClientConfig.kingdee_access_token = responseJsonObj.getJSONObject("data").getString("access_token");
 			} catch (Exception e) {
 				e.printStackTrace();
 				logger.error("金蝶获取token出错: " + e.getMessage());
 			}
+		}else {
+			XxlJobLogger.log("金蝶获取token 返回值未获取到" );
 		}
 	}
 
 	public void getUserList() {
+		XxlJobLogger.log("--金蝶获取会员 start--");
 		String getUserListUri = "http://api.kingdee.com/jdyapi/retail/mb/thirdlist?access_token=%s&dbid=%s";
 		int pageIndex = 1;
 		int pageCount = 0;
@@ -84,6 +88,7 @@ public class KingdeeService {
 				}
 			}
 		} while (pageIndex <= pageCount);
+		XxlJobLogger.log("--金蝶获取会员 end--");
 	}
 
 	/**
